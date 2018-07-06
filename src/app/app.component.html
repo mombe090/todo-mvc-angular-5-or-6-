@@ -1,0 +1,33 @@
+
+<section class="todoapp">
+  <header class="header">
+    <h1>Todo <span style="font-size: 0.15em"><a href="https://twitter.com/MamadouYaya">@mombesoft</a></span></h1>
+    <input class="new-todo" autofocus autocomplete="off" placeholder="Que devez-vous faire?" [(ngModel)]="newTodo.todo" (keyup)="addTodo($event)">
+  </header>
+  <section class="main">
+    <input class="toggle-all" type="checkbox" >
+    <ul class="todo-list">
+      <li class="todo" *ngFor="let todo of filterTodos" [ngClass]="{'completed': todo.status, 'editing': todo.id == editingIndex}"> <!--, 'editing': !todo.status}-->
+        <div class="view">
+          <input class="toggle" type="checkbox" [(ngModel)]="todo.status" (change)="statusEdit(todo)">
+          <label (dblclick)="editTodo(todo.id)">{{todo.todo}}</label>
+          <button class="destroy" (click)="removeTodo(todo)"></button>
+        </div>
+        <input class="edit" type="text" [(ngModel)]="todo.todo" (focus)="todo == editedTodo" (keyup)="doneEdit(todo, $event)">
+      </li>
+    </ul>
+  </section>
+  <footer class="footer"  *ngIf="filterTodos?.length!=0">
+				<span class="todo-count">
+					<strong>{{filterTodos?.length}}</strong>  élement.
+				</span>
+    <ul class="filters">
+      <li><a href="#" [ngClass]="{'selected': visibility == 'all'}" (click)="changeVisibility('all')">All</a></li>
+      <li><a href="#" [ngClass]="{'selected': visibility == 'active'}" (click)="changeVisibility('active')">Active</a></li>
+      <li><a href="#" [ngClass]="{'selected': visibility == 'complete'}" (click)="changeVisibility('complete')">Complète</a></li>
+    </ul>
+    <button class="clear-completed" (click)="removeCompleted()">
+      Tout supprimer
+    </button>
+  </footer>
+</section>
